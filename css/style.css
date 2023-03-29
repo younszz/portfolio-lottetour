@@ -67,6 +67,8 @@
 #visual .search-wrap .pkg .date .date-sel input[type=text] {width: 100px;}
 
 #visual .search-wrap .pkg .recent-search {width: 400px; text-align-last: left;}
+#visual .search-wrap .pkg .recent-search ul li {display: inline-block; margin-right: 10px;}
+#visual .search-wrap .pkg .recent-search ul li button {vertical-align: middle;}
 #visual .search-wrap .pkg .recent-search::before {content: ""; display: block; width: 1px; height: 116px; background: #dcdcdc; position: absolute; right: 480px; top: 50%; transform: translateY(-50%);}
 #visual .search-wrap .pkg .recent-search p {margin-bottom: 23px; font-size: 16px; letter-spacing: -0.4px;}
 

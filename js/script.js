@@ -6,6 +6,7 @@ function mainInit() {
   gnb_menu();
   visual();
   vis_search();
+  search();
   thema();
   exhibition();
   video();
@@ -93,6 +94,62 @@ ticket.forEach(item => {
 })
 }
 
+function search(){
+  const searchForm = document.getElementById("place-search");
+  const searchInput = searchForm.querySelector("input");
+  const recentSearch = document.querySelector(".recent-search");
+  const noSearch = recentSearch.querySelector("p:nth-child(2)");
+  const searchList = recentSearch.querySelector("ul");
+  console.log(noSearch)
+
+  let items = [];
+
+  function saveSearch(){
+    localStorage.setItem("searchWord", JSON.stringify(items))
+  }
+  function deleteSearch(e){
+    const li = e.target.parentElement;
+    li.remove();
+    items = items.filter((item) => item.id !== parseInt(li.id));
+    items.length === 0 && (noSearch.innerText = "최근검색이 없습니다.")
+    saveSearch();
+  }
+  function paintSearch(newSearch){
+    const li = document.createElement("li");
+    li.id = newSearch.id;
+    const span = document.createElement("span");
+    span.innerText = newSearch.text;
+    const btn = document.createElement("button");
+    btn.innerText = "X";
+    noSearch.innerText = ""
+    btn.addEventListener("click", deleteSearch);
+    li.appendChild(span);
+    li.appendChild(btn);
+    searchList.appendChild(li);
+  }
+  function searchSubmit(e){
+    e.preventDefault();
+    const newSearch = searchInput.value;
+    searchInput.value = "";
+    const newSearchObj= {
+      text: newSearch,
+      id: Date.now(),
+    };
+    items.push(newSearchObj);
+    paintSearch(newSearchObj);
+    saveSearch();
+  }
+  searchForm.addEventListener("submit",searchSubmit);
+
+  const savedSearch = localStorage.getItem("searchWord");
+  if(savedSearch !== null){
+    const parsedSearch = JSON.parse(savedSearch);
+    items = parsedSearch;
+    parsedSearch.forEach(paintSearch);
+  }else{
+    noSearch.innerText = "최근검색이 없습니다."
+  }
+}
 
 // 테마
 function thema() {
